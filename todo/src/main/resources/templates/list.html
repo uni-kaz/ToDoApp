@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ToDoアプリトップ画面</title>
+
+    <style>
+        thead {
+            font-weight: bold;
+        }
+
+        td {
+            padding: .5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>ようこそ [[${member.name}]] さん！</h1>
+    <a th:href="@{/{mid}/todo(mid=${member.mid})}">自分のToDo</a>
+    <a th:href="@{/{mid}/todo/all(mid=${member.mid})}">みんなのToDo</a>
+    <a th:href="@{/}">ログアウト</a>
+
+    <h2>ToDo</h2>
+    <table border="1" id="todoTable">
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>タイトル</td>
+                <td>作成日時</td>
+                <td>コマンド</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="t: ${todos}">
+                <td>[[${t.seq}]]</td>
+                <td>[[${t.title}]]</td>
+                <td>[[${t.createdAt}]]</td>
+                <td>
+                    <form th:action="@{/{mid}/todo/{seq}/done(mid=${t.mid},seq=${t.seq})}" method="post">
+                        <button type="submit">完了</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form th:action="@{/{mid}/todo(mid=${member.mid})}" method="post" th:object="${toDoForm}">
+        <input type="text" name="title" th:field="*{title}" required>
+        <input type="submit" value="新規作成">
+    </form>
+
+    <h2>Done</h2>
+    <table border="1" id="doneTable">
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>タイトル</td>
+                <td>作成日時</td>
+                <td>完了日時</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="d: ${dones}">
+                <td>[[${d.seq}]]</td>
+                <td>[[${d.title}]]</td>
+                <td>[[${d.createdAt}]]</td>
+                <td>[[${d.doneAt}]]</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
