@@ -3,17 +3,27 @@ package jp.kobespiral.unikaz.todo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jp.kobespiral.unikaz.todo.dto.MemberForm;
+import jp.kobespiral.unikaz.todo.dto.UserDetailsImpl;
 import jp.kobespiral.unikaz.todo.entity.Member;
 import jp.kobespiral.unikaz.todo.exception.ToDoAppException;
 import jp.kobespiral.unikaz.todo.repository.MemberRepository;
 
+/**
+ * メンバーのCRUDを行うサービス
+ */
 @Service
-public class MemberService {
+public class MemberService implements UserDetailsService {
     @Autowired
     MemberRepository mRepo;
+    @Autowired
+    BCryptPasswordEncoder encoder;
 
     /**
      * メンバーを作成する (C)
@@ -58,5 +68,26 @@ public class MemberService {
     public void deleteMember(String mid) {
         Member m = getMember(mid);
         mRepo.delete(m);
+    }
+
+    /**
+     * Spring Security のメソッド．ユーザIDを与えて，ユーザ詳細を生成する．
+     */
+    @Override
+    public UserDetails loadUserByUsername(String mid) throws UsernameNotFoundException {
+        Member m = mRepo.findById(mid).orElseThrow(() -> new UsernameNotFoundException(mid + ": no such user exists"));
+        return new UserDetailsImpl(m);
+    }
+
+    /**
+     * 管理者を登録するサービス．
+     */
+    public Member registerAdmin(String adminPassword) {
+        Member m = new Member();
+        m.setMid("admin");
+        m.setName("System Administrator");
+        m.setPassword(encoder.encode(adminPassword));
+        m.setRole("ADMIN");
+        return mRepo.save(m);
     }
 }

@@ -16,8 +16,14 @@ public class MemberForm {
     @Size(min = 1, max = 32)
     String name; // 名前（最大32文字）
 
+    @NotBlank
+    @Size(min = 8)
+    String password; // パスワード
+
+    String role = "MEMBER"; // ロール．デフォルトは"MEMBER"
+
     public Member toEntity() {
-        Member m = new Member(mid, name);
+        Member m = new Member(mid, name, password, role);
         return m;
     }
 }
