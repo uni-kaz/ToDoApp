@@ -38,6 +38,7 @@ public class MemberService implements UserDetailsService {
             throw new ToDoAppException(ToDoAppException.MEMBER_ALREADY_EXISTS, mid + ": Member already exists");
         }
         Member m = form.toEntity();
+        m.setPassword(encoder.encode(m.getPassword())); // エンコードしてセーブする
         return mRepo.save(m);
     }
 
@@ -60,6 +61,10 @@ public class MemberService implements UserDetailsService {
      */
     public List<Member> getAllMembers() {
         return mRepo.findAll();
+    }
+
+    public boolean existsById(String mid) {
+        return mRepo.existsById(mid);
     }
 
     /**

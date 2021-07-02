@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>管理者画面</title>
+    <title>サインアップ</title>
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
@@ -21,13 +21,15 @@
 </head>
 
 <body>
-    <h1>管理者画面</h1>
+    <h1>サインアップ</h1>
     <h2>メンバー新規登録</h2>
     <p> メンバーIDと氏名を入力して，「確認する」を押してください．</p>
     <ul>
-        <li>メンバーIDには，アルファベット小文字，数字，ハイフン，アンダーバーのみ使用できます</li>
+        <li>メンバーIDには，アルファベット小文字，数字，ハイフン，アンダーバーのみ使用できます．4文字以上16文字未満．</li>
+        <li>氏名は最大32文字．半角・全角が使用できます．</li>
+        <li>パスワードは8文字以上でつけてください．</li>
     </ul>
-    <form role="form" th:action="@{/admin/check}" th:object="${MemberForm}" method="post">
+    <form role="form" th:action="@{/sign_up/check}" th:object="${MemberForm}" method="post">
         <table>
             <tr>
                 <td><label>メンバーID: </label></td>
@@ -52,25 +54,6 @@
             </tr>
         </table>
         <p><input type="submit" class="link-button" value="確認する" /></p>
-    </form>
-    <span class="separator"></span>
-
-    <h2>登録済みメンバー</h2>
-    <table border="1" class="table table-sm table-striped">
-        <tr>
-            <th>メンバーID</th>
-            <th>氏名</th>
-            <th>コマンド</th>
-        </tr>
-        <tr th:each="m: ${members}">
-            <td>[[${m.mid}]]</td>
-            <td>[[${m.name}]]</td>
-            <td><a th:href=@{/admin/delete/{m}(m=${m.mid})}>削除</a></td>
-        </tr>
-    </table>
-
-    <form th:action="@{/sign_out}" method="post">
-        <input type="submit" class="link-button" value="サインアウト" />
     </form>
 </body>
 

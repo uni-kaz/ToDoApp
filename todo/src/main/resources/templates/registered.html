@@ -40,6 +40,10 @@
             <a th:href=@{/}>初めに戻る</a>
         </p>
     </div>
+
+    <form th:action="@{/sign_out}" method="post">
+        <input type="submit" class="link-button" value="サインアウト" />
+    </form>
 </body>
 
 </html>

@@ -8,4 +8,6 @@ import lombok.Data;
 public class LoginForm {
     @NotBlank
     String mid; // メンバーID
+    @NotBlank
+    String password; // パスワード
 }

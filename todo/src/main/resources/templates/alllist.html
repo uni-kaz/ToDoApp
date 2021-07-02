@@ -3,9 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>みんなのToDo</title>
+    <title>ToDoList</title>
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
@@ -23,58 +21,45 @@
 </head>
 
 <body>
-    <h1>ようこそ [[${member.name}]] さん！</h1>
-    <span class="separator"></span>
-
-    <button class="link-button"
-        th:onclick="'location.href=\'' + @{/{mid}/todo(mid=${member.mid})} + '\''">自分のToDo</button>
-    <button class="link-button"
-        th:onclick="'location.href=\'' + @{/{mid}/todo/all(mid=${member.mid})} + '\''">みんなのToDo</button>
-    <button class="link-button" th:onclick="'location.href=\'' + @{/} + '\''">ログアウト</button>
-    <span class="separator"></span>
-
+    <h1> みんなのToDoリスト</h1>
+    <p>
+        <a th:href="@{/{mid}/todos(mid=${member.mid})}">自分のToDo</a>
+    <form th:action="@{/sign_out}" method="post">
+        <input type="submit" class="link-button" value="サインアウト" />
+    </form>
+    </p>
     <h2>ToDo</h2>
-    <table border="1" id="todoTable" class="table table-sm table-striped">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>タイトル</th>
-                <th>ユーザ</th>
-                <th>作成日時</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="t: ${todos}">
-                <td>[[${t.seq}]]</td>
-                <td>[[${t.title}]]</td>
-                <td>[[${t.mid}]]</td>
-                <td>[[${t.createdAt}]]</td>
-            </tr>
-        </tbody>
+    <table border="1" class="table table-sm table-striped">
+        <tr>
+            <th>#</th>
+            <th>タイトル</th>
+            <th>作成者</th>
+            <th>作成日時</th>
+        </tr>
+        <tr th:each="todo: ${todos}">
+            <td>[[${todo.seq}]]</td>
+            <td>[[${todo.title}]]</td>
+            <td>[[${todo.mid}]]</td>
+            <td>[[${todo.createdAt}]]</td>
+        </tr>
     </table>
-    <span class="separator"></span>
 
     <h2>Done</h2>
-    <table border="1" id="doneTable" class="table table-sm table-striped">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>タイトル</th>
-                <th>ユーザ</th>
-                <th>作成日時</th>
-                <th>完了日時</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="d: ${dones}">
-                <td>[[${d.seq}]]</td>
-                <td>[[${d.title}]]</td>
-                <td>[[${d.mid}]]</td>
-                <td>[[${d.createdAt}]]</td>
-                <td>[[${d.doneAt}]]</td>
-            </tr>
-        </tbody>
+    <table border="1" class="table table-sm table-striped">
+        <tr>
+            <th>#</th>
+            <th>タイトル</th>
+            <th>作成者</th>
+            <th>完了日時</th>
+        </tr>
+        <tr th:each="done: ${dones}">
+            <td>[[${done.seq}]]</td>
+            <td>[[${done.title}]]</td>
+            <td>[[${done.mid}]]</td>
+            <td>[[${done.doneAt}]]</td>
+        </tr>
     </table>
+
 </body>
 
 </html>

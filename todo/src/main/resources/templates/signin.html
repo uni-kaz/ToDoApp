@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>登録確認</title>
+    <title>ToDoアプリケーション</title>
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
@@ -21,34 +21,29 @@
 </head>
 
 <body>
-    <h1>登録確認</h1>
+    <h1>ToDoアプリケーション</h1>
+    <img th:src=@{/img/todo_people.png} width="640px">
     <p>
-        以下の情報でメンバーを登録します．よろしければ登録を押してください．
+        サインインしてください．初めての方は，<a th:href="@{/sign_up}">サインアップ</a>してください．
     </p>
-    <form role="form" th:action="@{/admin/register}" th:object="${MemberForm}" method="post">
+    <form role="form" th:action="@{/authenticate}" th:object="${loginForm}" method="post">
         <p>
             <label>メンバーID: </label>
-            [[*{mid}]]
-        </p>
-        <p>
-            <label>氏名: </label>
-            [[*{name}]]
+            <input type="text" th:field="*{mid}" />
+            <span th:if="${#fields.hasErrors('mid')}" th:errors="*{mid}" style="color: red"></span>
         </p>
         <p>
             <label>パスワード: </label>
-            [[*{password}]]
+            <input type="password" th:field="*{password}" />
+            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red"></span>
+        </p>
+
+        <p>
+            <input type="submit" class="link-button" value="サインイン" />
         </p>
         <p>
-            <input type="button" value="戻る" onclick="history.back()" />
-            <input type="submit" value="登録する" />
+            <span th:if="${message}" th:text="${message}" style="color: red"></span>
         </p>
-        <input type="hidden" th:field="*{mid}" />
-        <input type="hidden" th:field="*{name}" />
-        <input type="hidden" th:field="*{password}" />
-    </form>
-
-    <form th:action="@{/sign_out}" method="post">
-        <input type="submit" class="link-button" value="サインアウト" />
     </form>
 </body>
 
