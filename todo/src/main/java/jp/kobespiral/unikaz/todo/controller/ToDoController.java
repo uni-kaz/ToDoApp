@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.kobespiral.unikaz.todo.dto.LoginForm;
 import jp.kobespiral.unikaz.todo.dto.ToDoForm;
@@ -82,7 +81,7 @@ public class ToDoController {
     @PostMapping("/{mid}/todo/{seq}/done")
     String finishToDo(@PathVariable String mid, @PathVariable Long seq, Model model) {
         // ToDo を Done にする
-        tService.chengeDone(seq);
+        tService.done(mid, seq);
         return "redirect:/" + mid + "/todo";
     }
 

@@ -92,23 +92,55 @@ public class ToDoService {
     }
 
     /**
-     * 指定した ToDo の完了フラグを変更する
+     * ToDo を Done に変更する
      * 
+     * @param mid 自分のメンバーID
+     * @param seq ToDo の通し番号
+     * @return Done になった ToDo
+     */
+    public ToDo done(String mid, Long seq) {
+        ToDo todo = getToDo(seq);
+        if (!mid.equals(todo.getMid())) {
+            // ToDoの作成者が自分でないとき
+            throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, "You cannot operate others' todos.");
+        }
+        todo.setDone(true);
+        todo.setDoneAt(new Date());
+        return tRepo.save(todo);
+    }
+
+    /**
+     * ToDo を更新する
+     * 
+     * @param mid  自分のメンバーID
+     * @param seq  ToDo の通し番号
+     * @param form フォームの内容
+     * @return 更新された ToDo
+     */
+    public ToDo updateToDo(String mid, Long seq, ToDoForm form) {
+        ToDo todo = getToDo(seq);
+        if (!mid.equals(todo.getMid())) {
+            // ToDoの作成者が自分でないとき
+            throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, "You cannot operate others' todos.");
+        }
+        // ToDo の内容を更新
+        todo.setTitle(form.getTitle());
+        return tRepo.save(todo);
+    }
+
+    /**
+     * ToDo を削除する
+     * 
+     * @param mid 自分のメンバーID
      * @param seq ToDo の通し番号
      */
-    public void chengeDone(Long seq) {
+    public void deleteToDo(String mid, Long seq) {
         ToDo todo = getToDo(seq);
-        if (todo.isDone()) {
-            // ToDo が完了していたときは false に
-            todo.setDone(false);
-            todo.setDoneAt(null);
-            tRepo.save(todo);
-        } else {
-            // ToDo が完了していないときは true に
-            todo.setDone(true);
-            todo.setDoneAt(new Date());
-            tRepo.save(todo);
+        if (!mid.equals(todo.getMid())) {
+            // ToDoの作成者が自分でないとき
+            throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, "You cannot operate others' todos.");
         }
+        tRepo.delete(todo);
     }
 
     /**
