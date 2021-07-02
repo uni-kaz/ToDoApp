@@ -45,13 +45,17 @@
                     </form>
                 </td>
             </tr>
+            <tr>
+                <td>*</td>
+                <td colspan="3">
+                    <form th:action="@{/{mid}/todo(mid=${member.mid})}" method="post" th:object="${toDoForm}">
+                        <input type="text" name="title" th:field="*{title}" required>
+                        <input type="submit" value="新規作成">
+                    </form>
+                </td>
+            </tr>
         </tbody>
     </table>
-
-    <form th:action="@{/{mid}/todo(mid=${member.mid})}" method="post" th:object="${toDoForm}">
-        <input type="text" name="title" th:field="*{title}" required>
-        <input type="submit" value="新規作成">
-    </form>
 
     <h2>Done</h2>
     <table border="1" id="doneTable">
