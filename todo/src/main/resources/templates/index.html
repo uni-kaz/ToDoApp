@@ -25,7 +25,9 @@
 <body>
     <h1>ToDo管理アプリケーション</h1>
     <span class="separator"></span>
-    <img th:src="@{/img/todo_people.png}" style="width: 60%;">
+    <div class="col-xs-12 col-sm-10 col-xl-8">
+        <img th:src="@{/img/todo_people.png}" style="width:100%;">
+    </div>
     <span class="separator"></span>
     <h2>ログイン</h2>
     <form th:action="@{/login}" method="post" th:object="${loginForm}">
