@@ -1,0 +1,30 @@
+html {
+    padding: 8px;
+}
+
+.link-button {
+    background-color: #1e90ff;
+    border: none;
+    border-radius: .25rem;
+    color: white;
+    padding: .5rem;
+}
+
+h1 {
+    background-color: #b8e2f9;
+    border: dashed 2px #1e90ff;
+    box-shadow: 0 0 0 5px #b8e2f9;
+    padding: .5rem;
+}
+
+h2 {
+    border-left: solid 10px #1e90ff;
+    border-bottom: solid 2px #1e90ff;
+    padding: .5rem;
+}
+
+.separator {
+    width: 100%;
+    height: 1rem;
+    display: block;
+}
